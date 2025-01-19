@@ -48,7 +48,7 @@ public class Duck {
                 System.out.println(divider + "Got it. I've added this task:\n");
                 System.out.println("  " + todo);
                 System.out.println("Now you have " + tasks_list.size() + " tasks in the list.");
-                System.out.println(divider);
+                System.out.print(divider);
             } else if (user_input.startsWith("deadline ")){
                 String[] task_description_by = user_input.substring(9).split(" /by ");
                 Task deadline = new Deadline(task_description_by[0], task_description_by[1]);
@@ -56,7 +56,7 @@ public class Duck {
                 System.out.println(divider + "Got it. I've added this task:");
                 System.out.println("  " + deadline);
                 System.out.println("Now you have " + tasks_list.size() + " tasks in the list.");
-                System.out.println(divider);
+                System.out.print(divider);
             } else if (user_input.startsWith("event ")){
                 String[] task_description_time = user_input.substring(6).split(" /from ");
                 String[] time_from_to = task_description_time[1].split(" /to ");
@@ -65,7 +65,7 @@ public class Duck {
                 System.out.println(divider + "Got it. I've added this task:");
                 System.out.println("  " + event);
                 System.out.println("Now you have " + tasks_list.size() + " tasks in the list.");
-                System.out.println(divider);
+                System.out.print(divider);
             }
 
         }
