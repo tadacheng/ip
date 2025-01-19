@@ -4,11 +4,8 @@ import java.util.ArrayList;
 public class Duck {
     public static void main(String[] args) throws IOException {
         String divider = "____________________________________________________________\n";
-        String greeting = divider + "Hello! I'm Duck\nWhat can I do for you?\n" + divider;
-        String goodbye = divider + "Bye. Hope to see you again soon!\n" + divider;
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println(greeting);
+        System.out.println(divider + "Hello! I'm Duck\nWhat can I do for you?\n" + divider);
         String user_input;
         ArrayList<Task> tasks_list = new ArrayList<>();
 
@@ -29,7 +26,7 @@ public class Duck {
                             delete [task_id] - Delete Task""");
                     System.out.print(divider);
                 } else if (user_input.equals("bye")) {
-                    System.out.println(goodbye);
+                    System.out.println(divider + "Bye. Hope to see you again soon!\n" + divider);
                     break;
                 } else if (user_input.equals("list")) {
                     System.out.print(divider);
