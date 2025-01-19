@@ -25,7 +25,8 @@ public class Duck {
                             deadline [description] /by [date/time] - Create Deadline Task
                             event [description] /from [start] /to [end] - Create Event Task
                             mark [task_id] - Set Task as Done
-                            unmark [task_id] - Set Task as Not Done""");
+                            unmark [task_id] - Set Task as Not Done
+                            delete [task_id] - Delete Task""");
                     System.out.print(divider);
                 } else if (user_input.equals("bye")) {
                     System.out.println(goodbye);
@@ -64,6 +65,18 @@ public class Duck {
 
                     System.out.println(divider + "OK, I've marked this task as not done yet:");
                     System.out.println("  " + task);
+                    System.out.print(divider);
+
+                } else if (user_input.startsWith("delete ")) {
+                    int task_id = Integer.parseInt(user_input.substring(7)) - 1;
+                    if (task_id < 0 || task_id >= tasks_list.size()) {
+                        throw new DuckException("Invalid task number. Use list to view task id");
+                    }
+                    Task task = tasks_list.get(task_id);
+                    tasks_list.remove(task_id);
+                    System.out.println(divider + "Noted. I've removed this task:");
+                    System.out.println("  " + task);
+                    System.out.println("Now you have " + tasks_list.size() + " tasks in the list.");
                     System.out.print(divider);
 
                 } else if (user_input.startsWith("todo ")) {
