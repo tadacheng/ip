@@ -17,11 +17,18 @@ public class Duck {
     private static void createSaveFile() throws IOException {
         File directory = new File("./data");
         if (!directory.exists()) {
-            directory.mkdirs(); // Creates the directory if it doesn't exist
+            if (directory.mkdirs()) { // Creates the directory if it doesn't exist
+                System.out.println("Failed to create the directory: " + directory.getPath());
+                return; // Exit if the directory creation fails
+            }
         }
         File saveFile = new File(SAVE_FILE_PATH);
         if (!saveFile.exists()) {
-            saveFile.createNewFile(); // Creates the file if it doesn't exist
+            if (saveFile.createNewFile()) { // Creates the file if it doesn't exist
+                System.out.println("File created: " + SAVE_FILE_PATH);
+            } else {
+                System.err.println("Failed to create the file: " + SAVE_FILE_PATH);
+            }
         }
     }
 
