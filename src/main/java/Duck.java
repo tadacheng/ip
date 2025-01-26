@@ -1,19 +1,76 @@
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 
 public class Duck {
+    private static final String DIVIDER = "____________________________________________________________\n";
+    private static final ArrayList<Task> tasksList = new ArrayList<>();
+    private static final String SAVE_FILE_PATH = "./data/duck.txt";
+
+    private static void createSaveFile() throws IOException {
+        File directory = new File("./data");
+        if (!directory.exists()) {
+            directory.mkdirs(); // Creates the directory if it doesn't exist
+        }
+        File saveFile = new File(SAVE_FILE_PATH);
+        if (!saveFile.exists()) {
+            saveFile.createNewFile(); // Creates the file if it doesn't exist
+        }
+    }
+
+    private static void loadTasksFromSave() {
+        try {
+            createSaveFile();
+            BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE_PATH));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] taskData = line.split(" \\| ");
+                Task task = switch (taskData[0]) {
+                    case "T" -> new Todo(taskData[2]);
+                    case "D" -> new Deadline(taskData[2], taskData[3]);
+                    case "E" -> new Event(taskData[2], taskData[3], taskData[4]);
+                    default -> throw new DuckException("Invalid task type in file.");
+                };
+                if (taskData[1].equals("1")) task.markAsDone();
+                tasksList.add(task);
+            }
+        } catch (IOException | DuckException e) {
+            System.out.println("Failed to load tasks: \n" + e.getMessage());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("File duck.txt content not in the expected format");
+        }
+    }
+
+    private static void saveTasksToFile() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(SAVE_FILE_PATH))) {
+            for (Task task : tasksList) {
+                writer.write(task.toFileFormat());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to save tasks: " + e.getMessage());
+        }
+    }
+
     public static void main(String[] args) throws IOException {
-        String divider = "____________________________________________________________\n";
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println(divider + "Hello! I'm Duck\nWhat can I do for you?\n" + divider);
-        String user_input;
-        ArrayList<Task> tasks_list = new ArrayList<>();
+        System.out.println(DIVIDER + "Hello! I'm Duck\nWhat can I do for you?\n" + DIVIDER);
+        String userInput;
+        loadTasksFromSave();
 
         while (true) {
-            user_input = br.readLine();
+            userInput = br.readLine();
             try {
-                if (user_input.equals("help")) {
-                    System.out.print(divider);
+                if (userInput.equals("help")) {
+                    System.out.print(DIVIDER);
                     System.out.println("""
                             Usage:\s
                             list - Show tasklist
@@ -24,107 +81,114 @@ public class Duck {
                             mark [task_id] - Set Task as Done
                             unmark [task_id] - Set Task as Not Done
                             delete [task_id] - Delete Task""");
-                    System.out.print(divider);
-                } else if (user_input.equals("bye")) {
-                    System.out.println(divider + "Bye. Hope to see you again soon!\n" + divider);
+                    System.out.print(DIVIDER);
+                } else if (userInput.equals("bye")) {
+                    System.out.println(DIVIDER + "Bye. Hope to see you again soon!\n" + DIVIDER);
                     break;
-                } else if (user_input.equals("list")) {
-                    System.out.print(divider);
-                    if (tasks_list.isEmpty()) {
+                } else if (userInput.equals("list")) {
+                    System.out.print(DIVIDER);
+                    if (tasksList.isEmpty()) {
                         System.out.println("No tasks in the list.");
                     } else {
                         System.out.println("Here are the tasks in your list:");
-                        for (int i = 0; i < tasks_list.size(); i++) {
-                            Task task = tasks_list.get(i);
+                        for (int i = 0; i < tasksList.size(); i++) {
+                            Task task = tasksList.get(i);
                             System.out.println((i + 1) + "." + task);
                         }
                     }
-                    System.out.print(divider);
-                } else if (user_input.startsWith("mark ")) {
-                    int task_id = Integer.parseInt(user_input.substring(5)) - 1;
-                    if (task_id < 0 || task_id >= tasks_list.size()) {
+                    System.out.print(DIVIDER);
+                } else if (userInput.startsWith("mark ")) {
+                    int task_id = Integer.parseInt(userInput.substring(5)) - 1;
+                    if (task_id < 0 || task_id >= tasksList.size()) {
                         throw new DuckException("Invalid task number. Use list to view task id");
                     }
-                    Task task = tasks_list.get(task_id);
+                    Task task = tasksList.get(task_id);
                     task.markAsDone();
+                    saveTasksToFile();
 
-                    System.out.println(divider + "Nice! I've marked this task as done:");
+                    System.out.println(DIVIDER + "Nice! I've marked this task as done:");
                     System.out.println("  " + task);
-                    System.out.print(divider);
+                    System.out.print(DIVIDER);
 
-                } else if (user_input.startsWith("unmark ")) {
-                    int task_id = Integer.parseInt(user_input.substring(7)) - 1;
-                    if (task_id < 0 || task_id >= tasks_list.size()) {
+                } else if (userInput.startsWith("unmark ")) {
+                    int task_id = Integer.parseInt(userInput.substring(7)) - 1;
+                    if (task_id < 0 || task_id >= tasksList.size()) {
                         throw new DuckException("Invalid task number. Use list to view task id");
                     }
-                    Task task = tasks_list.get(task_id);
+                    Task task = tasksList.get(task_id);
                     task.markAsNotDone();
+                    saveTasksToFile();
 
-                    System.out.println(divider + "OK, I've marked this task as not done yet:");
+                    System.out.println(DIVIDER + "OK, I've marked this task as not done yet:");
                     System.out.println("  " + task);
-                    System.out.print(divider);
+                    System.out.print(DIVIDER);
 
-                } else if (user_input.startsWith("delete ")) {
-                    int task_id = Integer.parseInt(user_input.substring(7)) - 1;
-                    if (task_id < 0 || task_id >= tasks_list.size()) {
+                } else if (userInput.startsWith("delete ")) {
+                    int task_id = Integer.parseInt(userInput.substring(7)) - 1;
+                    if (task_id < 0 || task_id >= tasksList.size()) {
                         throw new DuckException("Invalid task number. Use list to view task id");
                     }
-                    Task task = tasks_list.get(task_id);
-                    tasks_list.remove(task_id);
-                    System.out.println(divider + "Noted. I've removed this task:");
-                    System.out.println("  " + task);
-                    System.out.println("Now you have " + tasks_list.size() + " tasks in the list.");
-                    System.out.print(divider);
+                    Task task = tasksList.get(task_id);
+                    tasksList.remove(task_id);
+                    saveTasksToFile();
 
-                } else if (user_input.startsWith("todo ")) {
-                    String task_description = user_input.substring(5).trim();
-                    if (task_description.isEmpty()) {
+                    System.out.println(DIVIDER + "Noted. I've removed this task:");
+                    System.out.println("  " + task);
+                    System.out.println("Now you have " + tasksList.size() + " tasks in the list.");
+                    System.out.print(DIVIDER);
+
+                } else if (userInput.startsWith("todo ")) {
+                    String taskDescription = userInput.substring(5).trim();
+                    if (taskDescription.isEmpty()) {
                         throw new DuckException("Invalid format. Use: todo [description]");
                     }
-                    Task todo = new Todo(task_description);
-                    tasks_list.add(todo);
+                    Task todo = new Todo(taskDescription);
+                    tasksList.add(todo);
+                    saveTasksToFile();
 
-                    System.out.println(divider + "Got it. I've added this task:\n");
+                    System.out.println(DIVIDER + "Got it. I've added this task:\n");
                     System.out.println("  " + todo);
-                    System.out.println("Now you have " + tasks_list.size() + " tasks in the list.");
-                    System.out.print(divider);
+                    System.out.println("Now you have " + tasksList.size() + " tasks in the list.");
+                    System.out.print(DIVIDER);
 
-                } else if (user_input.startsWith("deadline ")) {
-                    String[] task_description_by = user_input.substring(9).split(" /by ");
-                    if (task_description_by.length < 2) {
+                } else if (userInput.startsWith("deadline ")) {
+                    String[] taskDescriptionBy = userInput.substring(9).split(" /by ");
+                    if (taskDescriptionBy.length < 2) {
                         throw new DuckException("Invalid format. Use: deadline [description] /by [date/time]");
                     }
-                    Task deadline = new Deadline(task_description_by[0], task_description_by[1]);
-                    tasks_list.add(deadline);
+                    Task deadline = new Deadline(taskDescriptionBy[0], taskDescriptionBy[1]);
+                    tasksList.add(deadline);
+                    saveTasksToFile();
 
-                    System.out.println(divider + "Got it. I've added this task:");
+                    System.out.println(DIVIDER + "Got it. I've added this task:");
                     System.out.println("  " + deadline);
-                    System.out.println("Now you have " + tasks_list.size() + " tasks in the list.");
-                    System.out.print(divider);
+                    System.out.println("Now you have " + tasksList.size() + " tasks in the list.");
+                    System.out.print(DIVIDER);
 
-                } else if (user_input.startsWith("event ")) {
-                    String[] task_description_time = user_input.substring(6).split(" /from ");
-                    if (task_description_time.length < 2 || !task_description_time[1].contains(" /to ")) {
+                } else if (userInput.startsWith("event ")) {
+                    String[] taskDescriptionTime = userInput.substring(6).split(" /from ");
+                    if (taskDescriptionTime.length < 2 || !taskDescriptionTime[1].contains(" /to ")) {
                         throw new DuckException("Invalid format. Use: event [description] /from [start] /to [end]");
                     }
-                    String[] time_from_to = task_description_time[1].split(" /to ");
-                    Task event = new Event(task_description_time[1], time_from_to[0], time_from_to[1]);
-                    tasks_list.add(event);
+                    String[] timeFromTo = taskDescriptionTime[1].split(" /to ");
+                    Task event = new Event(taskDescriptionTime[1], timeFromTo[0], timeFromTo[1]);
+                    tasksList.add(event);
+                    saveTasksToFile();
 
-                    System.out.println(divider + "Got it. I've added this task:");
+                    System.out.println(DIVIDER + "Got it. I've added this task:");
                     System.out.println("  " + event);
-                    System.out.println("Now you have " + tasks_list.size() + " tasks in the list.");
-                    System.out.print(divider);
+                    System.out.println("Now you have " + tasksList.size() + " tasks in the list.");
+                    System.out.print(DIVIDER);
 
                 } else {
-                    throw new DuckException("Error: The command is invalid. Enter help to display command usage!");
+                    throw new DuckException("Invalid Command. Enter help to display command usage!");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Task id must be an integer.");
             } catch (DuckException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
-                System.out.println(divider + "An unexpected error occurred: " + e.getMessage() + divider);
+                System.out.println(DIVIDER + "An unexpected error occurred: " + e.getMessage() + DIVIDER);
             }
         }
         br.close();
