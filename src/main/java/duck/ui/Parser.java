@@ -1,3 +1,17 @@
+package duck.ui;
+
+import duck.command.AddCommand;
+import duck.command.Command;
+import duck.command.DeleteCommand;
+import duck.command.ExitCommand;
+import duck.command.HelpCommand;
+import duck.command.ListCommand;
+import duck.command.MarkCommand;
+import duck.exception.DuckException;
+import duck.task.Deadline;
+import duck.task.Event;
+import duck.task.Todo;
+
 public class Parser {
     public static Command parse(String fullCommand) throws DuckException {
         String[] parts = fullCommand.split(" ", 2);
