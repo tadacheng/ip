@@ -6,7 +6,7 @@ public class Duck {
     private static ArrayList<Task> tasksList = new ArrayList<>();
     private static final String SAVE_FILE_PATH = "./data/duck.txt";
 
-    private static void loadTasksFromSave() throws IOException {
+    private static void createSaveFile() throws IOException {
         File directory = new File("./data");
         if (!directory.exists()) {
             directory.mkdirs(); // Creates the directory if it doesn't exist
@@ -15,7 +15,12 @@ public class Duck {
         if (!saveFile.exists()) {
             saveFile.createNewFile(); // Creates the file if it doesn't exist
         }
-        try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE_PATH))) {
+    }
+
+    private static void loadTasksFromSave() {
+        try {
+            createSaveFile();
+            BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE_PATH));
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] taskData = line.split(" \\| ");
@@ -30,6 +35,17 @@ public class Duck {
             }
         } catch (IOException | DuckException e) {
             System.out.println("Failed to load tasks: " + e.getMessage());
+        }
+    }
+
+    private static void saveTasksToFile() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(SAVE_FILE_PATH))) {
+            for (Task task : tasksList) {
+                writer.write(task.toFileFormat());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to save tasks: " + e.getMessage());
         }
     }
 
@@ -78,7 +94,7 @@ public class Duck {
                     }
                     Task task = tasksList.get(task_id);
                     task.markAsDone();
-
+                    saveTasksToFile();
                     System.out.println(DIVIDER + "Nice! I've marked this task as done:");
                     System.out.println("  " + task);
                     System.out.print(DIVIDER);
@@ -90,7 +106,7 @@ public class Duck {
                     }
                     Task task = tasksList.get(task_id);
                     task.markAsNotDone();
-
+                    saveTasksToFile();
                     System.out.println(DIVIDER + "OK, I've marked this task as not done yet:");
                     System.out.println("  " + task);
                     System.out.print(DIVIDER);
@@ -102,6 +118,7 @@ public class Duck {
                     }
                     Task task = tasksList.get(task_id);
                     tasksList.remove(task_id);
+                    saveTasksToFile();
                     System.out.println(DIVIDER + "Noted. I've removed this task:");
                     System.out.println("  " + task);
                     System.out.println("Now you have " + tasksList.size() + " tasks in the list.");
@@ -114,7 +131,7 @@ public class Duck {
                     }
                     Task todo = new Todo(taskDescription);
                     tasksList.add(todo);
-
+                    saveTasksToFile();
                     System.out.println(DIVIDER + "Got it. I've added this task:\n");
                     System.out.println("  " + todo);
                     System.out.println("Now you have " + tasksList.size() + " tasks in the list.");
@@ -127,7 +144,7 @@ public class Duck {
                     }
                     Task deadline = new Deadline(taskDescriptionBy[0], taskDescriptionBy[1]);
                     tasksList.add(deadline);
-
+                    saveTasksToFile();
                     System.out.println(DIVIDER + "Got it. I've added this task:");
                     System.out.println("  " + deadline);
                     System.out.println("Now you have " + tasksList.size() + " tasks in the list.");
@@ -141,7 +158,7 @@ public class Duck {
                     String[] timeFromTo = taskDescriptionTime[1].split(" /to ");
                     Task event = new Event(taskDescriptionTime[1], timeFromTo[0], timeFromTo[1]);
                     tasksList.add(event);
-
+                    saveTasksToFile();
                     System.out.println(DIVIDER + "Got it. I've added this task:");
                     System.out.println("  " + event);
                     System.out.println("Now you have " + tasksList.size() + " tasks in the list.");
