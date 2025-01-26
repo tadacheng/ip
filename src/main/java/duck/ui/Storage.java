@@ -1,3 +1,11 @@
+package duck.ui;
+
+import duck.exception.DuckException;
+import duck.task.Deadline;
+import duck.task.Event;
+import duck.task.Task;
+import duck.task.Todo;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -47,7 +55,7 @@ public class Storage {
         return tasksList;
     }
 
-    public void save(List<Task> tasksList) throws DuckException{
+    public void save(List<Task> tasksList) throws DuckException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(saveFilePath))) {
             for (Task task : tasksList) {
                 writer.write(task.toFileFormat());

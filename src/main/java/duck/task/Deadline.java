@@ -1,3 +1,7 @@
+package duck.task;
+
+import duck.task.Task;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 

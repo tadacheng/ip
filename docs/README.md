@@ -1,4 +1,4 @@
-# Duck User Guide
+# duck.ui.Duck User Guide
 
 // Update the title above to match the actual product name
 

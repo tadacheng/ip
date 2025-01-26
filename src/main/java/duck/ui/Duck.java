@@ -1,3 +1,7 @@
+package duck.ui;
+
+import duck.exception.DuckException;
+import duck.command.Command;
 
 import java.io.IOException;
 
@@ -51,17 +55,17 @@ public class Duck {
 //                            Usage:\s
 //                            list - Show tasklist
 //                            bye - Quit
-//                            todo [description] - Create Todo Task
-//                            deadline [description] /by [date/time] - Create Deadline Task
-//                            event [description] /from [start] /to [end] - Create Event Task
-//                            mark [task_id] - Set Task as Done
-//                            unmark [task_id] - Set Task as Not Done
-//                            delete [task_id] - Delete Task""");
+//                            todo [description] - Create duck.task.Todo duck.task.Task
+//                            deadline [description] /by [date/time] - Create duck.task.Deadline duck.task.Task
+//                            event [description] /from [start] /to [end] - Create duck.task.Event duck.task.Task
+//                            mark [task_id] - Set duck.task.Task as Done
+//                            unmark [task_id] - Set duck.task.Task as Not Done
+//                            delete [task_id] - Delete duck.task.Task""");
 //                    System.out.print(DIVIDER);
 //                }
 //            } catch (NumberFormatException e) {
-//                System.out.println("Task id must be an integer.");
-//            } catch (DuckException e) {
+//                System.out.println("duck.task.Task id must be an integer.");
+//            } catch (duck.exception.DuckException e) {
 //                System.out.println(e.getMessage());
 //            } catch (Exception e) {
 //                System.out.println(DIVIDER + "An unexpected error occurred: " + e.getMessage() + DIVIDER);
