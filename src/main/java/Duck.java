@@ -1,9 +1,17 @@
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 
 public class Duck {
     private static final String DIVIDER = "____________________________________________________________\n";
-    private static ArrayList<Task> tasksList = new ArrayList<>();
+    private static final ArrayList<Task> tasksList = new ArrayList<>();
     private static final String SAVE_FILE_PATH = "./data/duck.txt";
 
     private static void createSaveFile() throws IOException {
@@ -34,7 +42,9 @@ public class Duck {
                 tasksList.add(task);
             }
         } catch (IOException | DuckException e) {
-            System.out.println("Failed to load tasks: " + e.getMessage());
+            System.out.println("Failed to load tasks: \n" + e.getMessage());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("File duck.txt content not in the expected format");
         }
     }
 
@@ -95,6 +105,7 @@ public class Duck {
                     Task task = tasksList.get(task_id);
                     task.markAsDone();
                     saveTasksToFile();
+
                     System.out.println(DIVIDER + "Nice! I've marked this task as done:");
                     System.out.println("  " + task);
                     System.out.print(DIVIDER);
@@ -107,6 +118,7 @@ public class Duck {
                     Task task = tasksList.get(task_id);
                     task.markAsNotDone();
                     saveTasksToFile();
+
                     System.out.println(DIVIDER + "OK, I've marked this task as not done yet:");
                     System.out.println("  " + task);
                     System.out.print(DIVIDER);
@@ -119,6 +131,7 @@ public class Duck {
                     Task task = tasksList.get(task_id);
                     tasksList.remove(task_id);
                     saveTasksToFile();
+
                     System.out.println(DIVIDER + "Noted. I've removed this task:");
                     System.out.println("  " + task);
                     System.out.println("Now you have " + tasksList.size() + " tasks in the list.");
@@ -132,6 +145,7 @@ public class Duck {
                     Task todo = new Todo(taskDescription);
                     tasksList.add(todo);
                     saveTasksToFile();
+
                     System.out.println(DIVIDER + "Got it. I've added this task:\n");
                     System.out.println("  " + todo);
                     System.out.println("Now you have " + tasksList.size() + " tasks in the list.");
@@ -145,6 +159,7 @@ public class Duck {
                     Task deadline = new Deadline(taskDescriptionBy[0], taskDescriptionBy[1]);
                     tasksList.add(deadline);
                     saveTasksToFile();
+
                     System.out.println(DIVIDER + "Got it. I've added this task:");
                     System.out.println("  " + deadline);
                     System.out.println("Now you have " + tasksList.size() + " tasks in the list.");
@@ -159,6 +174,7 @@ public class Duck {
                     Task event = new Event(taskDescriptionTime[1], timeFromTo[0], timeFromTo[1]);
                     tasksList.add(event);
                     saveTasksToFile();
+
                     System.out.println(DIVIDER + "Got it. I've added this task:");
                     System.out.println("  " + event);
                     System.out.println("Now you have " + tasksList.size() + " tasks in the list.");
