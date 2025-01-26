@@ -7,6 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Duck {
@@ -41,8 +43,8 @@ public class Duck {
                 String[] taskData = line.split(" \\| ");
                 Task task = switch (taskData[0]) {
                     case "T" -> new Todo(taskData[2]);
-                    case "D" -> new Deadline(taskData[2], taskData[3]);
-                    case "E" -> new Event(taskData[2], taskData[3], taskData[4]);
+                    case "D" -> new Deadline(taskData[2], LocalDateTime.parse(taskData[3]));
+                    case "E" -> new Event(taskData[2], LocalDateTime.parse(taskData[3]), LocalDateTime.parse(taskData[4]));
                     default -> throw new DuckException("Invalid task type in file.");
                 };
                 if (taskData[1].equals("1")) task.markAsDone();
@@ -161,7 +163,8 @@ public class Duck {
                 } else if (userInput.startsWith("deadline ")) {
                     String[] taskDescriptionBy = userInput.substring(9).split(" /by ");
                     if (taskDescriptionBy.length < 2) {
-                        throw new DuckException("Invalid format. Use: deadline [description] /by [date/time]");
+                        throw new DuckException("Invalid format. Use: deadline [description] "
+                                + "/by [Date Time eg. yyyy-MM-dd HHmm]");
                     }
                     Task deadline = new Deadline(taskDescriptionBy[0], taskDescriptionBy[1]);
                     tasksList.add(deadline);
@@ -175,10 +178,11 @@ public class Duck {
                 } else if (userInput.startsWith("event ")) {
                     String[] taskDescriptionTime = userInput.substring(6).split(" /from ");
                     if (taskDescriptionTime.length < 2 || !taskDescriptionTime[1].contains(" /to ")) {
-                        throw new DuckException("Invalid format. Use: event [description] /from [start] /to [end]");
+                        throw new DuckException("Invalid format. Use: event [description] "
+                                + "/from [start yyyy-MM-dd HHmm] /to [end yyyy-MM-dd HHmm]");
                     }
                     String[] timeFromTo = taskDescriptionTime[1].split(" /to ");
-                    Task event = new Event(taskDescriptionTime[1], timeFromTo[0], timeFromTo[1]);
+                    Task event = new Event(taskDescriptionTime[0], timeFromTo[0], timeFromTo[1]);
                     tasksList.add(event);
                     saveTasksToFile();
 
