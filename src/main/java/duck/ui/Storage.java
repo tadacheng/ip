@@ -23,13 +23,21 @@ public class Storage {
         this.saveFilePath = saveFilePath;
     }
 
-    public List<Task> load() throws DuckException{
+    public List<Task> load() throws DuckException {
         List<Task> tasksList = new ArrayList<>();
         File file = new File(saveFilePath);
+        File parentDir = file.getParentFile();
+        if (!parentDir.exists() && !parentDir.mkdirs()) {
+            throw new DuckException("Failed to create the directory: " + parentDir.getPath());
+        }
         if (!file.exists()) {
-            if (file.getParentFile().mkdirs()) { // Creates the file if it doesn't exist
-                System.out.println("File created: " + saveFilePath);
-            } else {
+            try {
+                if (file.createNewFile()) { // Creates the file if it doesn't exist
+                    System.out.println("File created: " + saveFilePath);
+                } else {
+                    throw new DuckException("Failed to create the file: " + saveFilePath);
+                }
+            } catch (IOException e) {
                 throw new DuckException("Failed to create the file: " + saveFilePath);
             }
         }

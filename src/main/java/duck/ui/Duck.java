@@ -45,30 +45,4 @@ public class Duck {
     public static void main(String[] args) throws IOException {
         new Duck("./data/duck.txt").run();
     }
-//
-//        while (true) {
-//            userInput = br.readLine();
-//            try {
-//                if (userInput.equals("help")) {
-//                    System.out.print(DIVIDER);
-//                    System.out.println("""
-//                            Usage:\s
-//                            list - Show tasklist
-//                            bye - Quit
-//                            todo [description] - Create duck.task.Todo duck.task.Task
-//                            deadline [description] /by [date/time] - Create duck.task.Deadline duck.task.Task
-//                            event [description] /from [start] /to [end] - Create duck.task.Event duck.task.Task
-//                            mark [task_id] - Set duck.task.Task as Done
-//                            unmark [task_id] - Set duck.task.Task as Not Done
-//                            delete [task_id] - Delete duck.task.Task""");
-//                    System.out.print(DIVIDER);
-//                }
-//            } catch (NumberFormatException e) {
-//                System.out.println("duck.task.Task id must be an integer.");
-//            } catch (duck.exception.DuckException e) {
-//                System.out.println(e.getMessage());
-//            } catch (Exception e) {
-//                System.out.println(DIVIDER + "An unexpected error occurred: " + e.getMessage() + DIVIDER);
-//            }
-//        }
 }

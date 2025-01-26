@@ -13,7 +13,7 @@ public class Ui {
 
     public void showWelcome() {
         System.out.println("____________________________________________________________\n"
-                + "Hello! I'm duck.ui.Duck\nWhat can I do for you?\n"
+                + "Hello! I'm Duck\nWhat can I do for you?\n"
                 + "____________________________________________________________");
     }
 
