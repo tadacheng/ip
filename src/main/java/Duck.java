@@ -6,11 +6,39 @@ public class Duck {
     private static ArrayList<Task> tasksList = new ArrayList<>();
     private static final String SAVE_FILE_PATH = "./data/duck.txt";
 
+    private static void loadTasksFromSave() throws IOException {
+        File directory = new File("./data");
+        if (!directory.exists()) {
+            directory.mkdirs(); // Creates the directory if it doesn't exist
+        }
+        File saveFile = new File(SAVE_FILE_PATH);
+        if (!saveFile.exists()) {
+            saveFile.createNewFile(); // Creates the file if it doesn't exist
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE_PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] taskData = line.split(" \\| ");
+                Task task = switch (taskData[0]) {
+                    case "T" -> new Todo(taskData[2]);
+                    case "D" -> new Deadline(taskData[2], taskData[3]);
+                    case "E" -> new Event(taskData[2], taskData[3], taskData[4]);
+                    default -> throw new DuckException("Invalid task type in file.");
+                };
+                if (taskData[1].equals("1")) task.markAsDone();
+                tasksList.add(task);
+            }
+        } catch (IOException | DuckException e) {
+            System.out.println("Failed to load tasks: " + e.getMessage());
+        }
+    }
+
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println(DIVIDER + "Hello! I'm Duck\nWhat can I do for you?\n" + DIVIDER);
         String userInput;
+        loadTasksFromSave();
 
         while (true) {
             userInput = br.readLine();
