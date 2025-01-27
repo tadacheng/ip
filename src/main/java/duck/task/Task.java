@@ -4,7 +4,7 @@ package duck.task;
  * Represents a task with a description and a status indicating whether it is completed.
  */
 public abstract class Task {
-    protected String description;
+    protected final String description;
     protected boolean isDone;
 
     /**
@@ -48,7 +48,7 @@ public abstract class Task {
      */
     @Override
     public String toString() {
-        return "[" + this.getStatusIcon() +"] " + this.description;
+        return "[" + this.getStatusIcon() + "] " + this.description;
     }
 
     /**
