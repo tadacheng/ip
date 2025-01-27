@@ -17,6 +17,7 @@ public class DeleteCommand extends Command {
     public DeleteCommand(int id) {
         this.id = id;
     }
+
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws DuckException {
         Task removedTask = tasks.deleteTask(this.id);
