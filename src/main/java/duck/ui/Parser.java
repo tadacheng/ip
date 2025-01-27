@@ -4,6 +4,7 @@ import duck.command.AddCommand;
 import duck.command.Command;
 import duck.command.DeleteCommand;
 import duck.command.ExitCommand;
+import duck.command.FindCommand;
 import duck.command.HelpCommand;
 import duck.command.ListCommand;
 import duck.command.MarkCommand;
@@ -48,6 +49,7 @@ public class Parser {
             case "delete" -> new DeleteCommand(Integer.parseInt(arguments) - 1);
             case "mark" -> new MarkCommand(Integer.parseInt(arguments) - 1, true);
             case "unmark" -> new MarkCommand(Integer.parseInt(arguments) - 1, false);
+            case "find" -> new FindCommand(arguments);
             case "bye" -> new ExitCommand();
             default -> throw new DuckException("Unknown command: " + commandWord);
         };
