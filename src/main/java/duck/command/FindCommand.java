@@ -1,6 +1,5 @@
 package duck.command;
 
-import duck.exception.DuckException;
 import duck.task.Task;
 import duck.ui.Storage;
 import duck.ui.TaskList;
@@ -8,6 +7,9 @@ import duck.ui.Ui;
 
 import java.util.List;
 
+/**
+ * Represents a command that prints all the tasks found with keyword in the tasks list.
+ */
 public class FindCommand extends Command {
     private final String keyword;
 
@@ -15,7 +17,7 @@ public class FindCommand extends Command {
         this.keyword = keyword;
     }
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws DuckException {
+    public void execute(TaskList tasks, Ui ui, Storage storage) {
         List<Task> foundTasks = tasks.findTasks(this.keyword);
         if (foundTasks.isEmpty()) {
             System.out.println("No task found in the lists");
