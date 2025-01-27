@@ -1,7 +1,7 @@
 package duck.task;
 
 public abstract class Task {
-    protected String description;
+    protected final String description;
     protected boolean isDone;
 
     public Task(String description) {
@@ -23,7 +23,7 @@ public abstract class Task {
 
     @Override
     public String toString() {
-        return "[" + this.getStatusIcon() +"] " + this.description;
+        return "[" + this.getStatusIcon() + "] " + this.description;
     }
 
     public abstract String toFileFormat();

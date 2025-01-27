@@ -12,6 +12,7 @@ public class TaskList {
     public TaskList() {
         this.tasks = new ArrayList<>();
     }
+
     public TaskList(List<Task> tasks) {
         this.tasks = tasks;
     }
@@ -30,6 +31,7 @@ public class TaskList {
     public Task getTask(int id) {
         return tasks.get(id);
     }
+
     public List<Task> getAllTasks() {
         return tasks;
     }
