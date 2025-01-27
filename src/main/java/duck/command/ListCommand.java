@@ -5,6 +5,9 @@ import duck.task.Task;
 import duck.ui.TaskList;
 import duck.ui.Ui;
 
+/**
+ * Represents a command that prints all the tasks in the tasks list.
+ */
 public class ListCommand extends Command {
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {

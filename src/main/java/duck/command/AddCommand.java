@@ -6,6 +6,11 @@ import duck.task.Task;
 import duck.ui.TaskList;
 import duck.ui.Ui;
 
+/**
+ * Represents a command that adds a task to the task list.
+ * This command takes a task, adds it to the task list, saves the updated list to storage,
+ * and prints a confirmation message to the user.
+ */
 public class AddCommand extends Command {
     private final Task task;
 
