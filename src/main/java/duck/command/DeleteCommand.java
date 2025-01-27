@@ -6,6 +6,11 @@ import duck.task.Task;
 import duck.ui.TaskList;
 import duck.ui.Ui;
 
+/**
+ * Represents a command that deletes a task from the task list.
+ * This command takes a task, delete it from the task list, saves the updated list to storage,
+ * and prints a confirmation message to the user.
+ */
 public class DeleteCommand extends Command {
     private final int id;
 

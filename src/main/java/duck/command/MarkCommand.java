@@ -6,6 +6,11 @@ import duck.task.Task;
 import duck.ui.TaskList;
 import duck.ui.Ui;
 
+/**
+ * Represents a command that marks a task as either done or not done.
+ * This command updates the status of a specific task in the task list
+ * and saves the updated task list to storage.
+ */
 public class MarkCommand extends Command {
     private final int id;
     private final boolean isMark;

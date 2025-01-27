@@ -16,15 +16,34 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles the loading and saving of tasks from/to a specified file.
+ * The tasks are saved in a file and can be reloaded upon starting the application.
+ */
 public class Storage {
     private final String saveFilePath;
 
+    /**
+     * Initializes the Storage with a given file path to load and save tasks.
+     *
+     * @param saveFilePath The path of the file where tasks are stored.
+     */
     public Storage(String saveFilePath) {
         this.saveFilePath = saveFilePath;
     }
 
+    /**
+     * Loads tasks from the storage file.
+     * If the file or directory doesn't exist, it will be created.
+     * The file content is parsed to recreate the list of tasks.
+     *
+     * @return A list of tasks loaded from the file.
+     * @throws DuckException If an error occurs during file reading or if the file format is invalid.
+     */
     public List<Task> load() throws DuckException {
         List<Task> tasksList = new ArrayList<>();
+
+        // Check if file and parent directory exists
         File file = new File(saveFilePath);
         File parentDir = file.getParentFile();
         if (!parentDir.exists() && !parentDir.mkdirs()) {
@@ -41,6 +60,8 @@ public class Storage {
                 throw new DuckException("Failed to create the file: " + saveFilePath);
             }
         }
+
+        // Load content from file and populate tasks list
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line;
@@ -63,6 +84,12 @@ public class Storage {
         return tasksList;
     }
 
+    /**
+     * Saves the given list of tasks to the storage file.
+     *
+     * @param tasksList The list of tasks to be saved to the file.
+     * @throws DuckException If an error occurs during file writing.
+     */
     public void save(List<Task> tasksList) throws DuckException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(saveFilePath))) {
             for (Task task : tasksList) {

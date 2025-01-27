@@ -12,7 +12,19 @@ import duck.task.Deadline;
 import duck.task.Event;
 import duck.task.Todo;
 
+/**
+ * Parses user input and returns the corresponding Command object.
+ * This class processes various command strings and generates commands such as Add, Delete, Mark, etc.
+ */
 public class Parser {
+
+    /**
+     * Parses the given command string and returns the corresponding Command object.
+     *
+     * @param fullCommand The full command string input by the user.
+     * @return The corresponding Command object based on the parsed input.
+     * @throws DuckException If the command is invalid or incorrectly formatted.
+     */
     public static Command parse(String fullCommand) throws DuckException {
         String[] parts = fullCommand.split(" ", 2);
         String commandWord = parts[0];

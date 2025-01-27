@@ -4,6 +4,9 @@ import duck.ui.Storage;
 import duck.ui.TaskList;
 import duck.ui.Ui;
 
+/**
+ * Represents a command that prints all the commands in the application.
+ */
 public class HelpCommand extends Command {
 
     @Override
