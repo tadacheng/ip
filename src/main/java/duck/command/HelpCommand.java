@@ -20,6 +20,7 @@ public class HelpCommand extends Command {
                 event [description] /from [Start eg. yyyy-MM-dd HHmm] /to [End Date Time eg. yyyy-MM-dd HHmm] - Create Event Task
                 mark [task_id] - Set Task as Done
                 unmark [task_id] - Set Task as Not Done
-                delete [task_id] - Delete Task""");
+                delete [task_id] - Delete Task
+                find [keyword] - Find Tasks with keyword in its description""");
     }
 }

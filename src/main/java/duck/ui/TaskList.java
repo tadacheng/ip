@@ -81,6 +81,12 @@ public class TaskList {
         return tasks.size();
     }
 
+    /**
+     * Returns a list of Task with keyword in its descriptions.
+     *
+     * @param keyword The keyword to be searched in the task list.
+     * @return The list of found task with keyword in description.
+     */
     public List<Task> findTasks(String keyword) {
         List<Task> matchingTasks = new ArrayList<>();
         for (Task task : tasks) {
