@@ -11,8 +11,9 @@ public class HelpCommand extends Command {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
-        System.out.println("""
-                Usage:\s
+        this.hasExecuted = true;
+        this.executedResponse = """
+                Usage:
                 list - Show tasklist
                 bye - Exit
                 todo [description] - Create Todo Task
@@ -21,6 +22,6 @@ public class HelpCommand extends Command {
                 mark [task_id] - Set Task as Done
                 unmark [task_id] - Set Task as Not Done
                 delete [task_id] - Delete Task
-                find [keyword] - Find Tasks with keyword in its description""");
+                find [keyword] - Find Tasks with keyword in its description""";
     }
 }

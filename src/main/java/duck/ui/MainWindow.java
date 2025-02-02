@@ -1,5 +1,6 @@
 package duck.ui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -48,6 +49,9 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getDuckDialog(response, duckImage)
         );
         userInput.clear();
+        if (response.equals("Bye. Hope to see you again soon!")) {
+            Platform.exit();
+        }
     }
 }
 

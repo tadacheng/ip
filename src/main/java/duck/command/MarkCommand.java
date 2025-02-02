@@ -32,13 +32,16 @@ public class MarkCommand extends Command {
         }
         Task task = tasks.getTask(id);
         storage.save(tasks.getAllTasks());
+        this.hasExecuted = true;
+        StringBuilder sb = new StringBuilder();
         if (isMark) {
             task.markAsDone();
-            System.out.println("Nice! I've marked this task as done:");
+            sb.append("Nice! I've marked this task as done:");
         } else {
             task.markAsNotDone();
-            System.out.println("OK, I've marked this task as not done yet:");
+            sb.append("OK, I've marked this task as not done yet:");
         }
-        System.out.println("  " + task);
+        sb.append("  ").append(task);
+        this.executedResponse = sb.toString();
     }
 }

@@ -11,7 +11,7 @@ import duck.exception.DuckException;
  * It handles interactions between the user interface, task list, and storage components.
  */
 public class Duck {
-    private static final String DEFAULT_FILE_PATH = "/data/duck.txt";
+    private static final String DEFAULT_FILE_PATH = "./data/duck.txt";
     private final Storage storage;
     private TaskList tasks;
     private final Ui ui;
@@ -67,9 +67,18 @@ public class Duck {
 
     /**
      * Generates a response for the user's chat message.
+     *
+     * @param input The input from users.
+     * @return The message after command is executed.
      */
     public String getResponse(String input) {
-        return "Duck heard: " + input;
+        try {
+            Command c = Parser.parse(input);
+            c.execute(tasks, ui, storage);
+            return c.getString();
+        } catch (DuckException e) {
+            return e.getMessage();
+        }
     }
 
     public static void main(String[] args) throws IOException {
