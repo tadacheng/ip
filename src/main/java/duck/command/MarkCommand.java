@@ -1,8 +1,8 @@
 package duck.command;
 
 import duck.exception.DuckException;
-import duck.ui.Storage;
 import duck.task.Task;
+import duck.ui.Storage;
 import duck.ui.TaskList;
 import duck.ui.Ui;
 
@@ -15,6 +15,11 @@ public class MarkCommand extends Command {
     private final int id;
     private final boolean isMark;
 
+    /**
+     * The command to mark a task as done or not done.
+     * @param id The id of the task.
+     * @param isMark Boolean of whether to mark Task.
+     */
     public MarkCommand(int id, boolean isMark) {
         this.id = id;
         this.isMark = isMark;

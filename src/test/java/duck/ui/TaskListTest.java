@@ -1,17 +1,20 @@
 package duck.ui;
 
-import duck.exception.DuckException;
-import duck.task.Task;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
-class TaskSUT extends Task {
-    public TaskSUT(String description) {
+import org.junit.jupiter.api.Test;
+
+import duck.exception.DuckException;
+import duck.task.Task;
+
+
+class TaskSut extends Task {
+    public TaskSut(String description) {
         super(description);
     }
 
@@ -24,7 +27,7 @@ public class TaskListTest {
     @Test
     public void testAddTask_success() {
         TaskList taskList = new TaskList();
-        Task task = new TaskSUT("Test Task");
+        Task task = new TaskSut("Test Task");
         taskList.addTask(task);
         assertEquals(1, taskList.size());
         assertEquals(task, taskList.getTask(0));
@@ -33,7 +36,7 @@ public class TaskListTest {
     @Test
     public void testDeleteTask_validId_success() throws DuckException {
         TaskList taskList = new TaskList();
-        Task task = new TaskSUT("Test Task");
+        Task task = new TaskSut("Test Task");
         taskList.addTask(task);
         Task deletedTask = taskList.deleteTask(0);
         assertEquals(task, deletedTask);
@@ -47,13 +50,16 @@ public class TaskListTest {
             taskList.deleteTask(0);
             fail();
         } catch (DuckException e) {
-            assertEquals(new DuckException("Invalid task number. Use list to view task id").getMessage(), e.getMessage());
+            assertEquals(
+                    new DuckException(
+                            "Invalid task number. Use list to view task id").getMessage(),
+                            e.getMessage());
         }
     }
 
     @Test
     public void testGetTask_validId_success() {
-        Task task = new TaskSUT("Test Task");
+        Task task = new TaskSut("Test Task");
         TaskList taskList = new TaskList();
         taskList.addTask(task);
         assertEquals(task, taskList.getTask(0));
@@ -71,15 +77,15 @@ public class TaskListTest {
     public void testSize() {
         TaskList taskList = new TaskList();
         assertEquals(0, taskList.size());
-        taskList.addTask(new TaskSUT("Task 1"));
-        taskList.addTask(new TaskSUT("Task 2"));
+        taskList.addTask(new TaskSut("Task 1"));
+        taskList.addTask(new TaskSut("Task 2"));
         assertEquals(2, taskList.size());
     }
 
     @Test
     public void testGetAllTasks() {
-        Task task1 = new TaskSUT("Task 1");
-        Task task2 = new TaskSUT("Task 2");
+        Task task1 = new TaskSut("Task 1");
+        Task task2 = new TaskSut("Task 2");
         List<Task> tasks = new ArrayList<>();
         tasks.add(task1);
         tasks.add(task2);

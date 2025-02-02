@@ -32,38 +32,38 @@ public class Parser {
         String arguments = parts.length > 1 ? parts[1] : "";
 
         return switch (commandWord) {
-            case "help" -> new HelpCommand();
-            case "list" -> new ListCommand();
-            case "todo" -> {
-                if (arguments.isEmpty()) {
-                    throw new DuckException("Invalid format. Use: todo [description]");
-                }
-                yield new AddCommand(new Todo(arguments));
+        case "help" -> new HelpCommand();
+        case "list" -> new ListCommand();
+        case "todo" -> {
+            if (arguments.isEmpty()) {
+                throw new DuckException("Invalid format. Use: todo [description]");
             }
-            case "deadline" -> {
-                String[] details = arguments.split(" /by ");
-                if (details.length < 2) {
-                    throw new DuckException("Invalid format. "
-                            + "Use: deadline [description] /by [Date Time eg. yyyy-MM-dd HHmm]");
-                }
-                yield new AddCommand(new Deadline(details[0], details[1]));
+            yield new AddCommand(new Todo(arguments));
+        }
+        case "deadline" -> {
+            String[] details = arguments.split(" /by ");
+            if (details.length < 2) {
+                throw new DuckException("Invalid format. "
+                        + "Use: deadline [description] /by [Date Time eg. yyyy-MM-dd HHmm]");
             }
-            case "event" -> {
-                String[] details = arguments.split(" /from ");
-                if (details.length < 2 || !details[1].contains(" /to ")) {
-                    throw new DuckException("Invalid format. "
-                            + "Use: event [description] /from [Start eg. yyyy-MM-dd HHmm] "
-                            + "/to [End eg. yyyy-MM-dd HHmm]");
-                }
-                String[] times = details[1].split(" /to ");
-                yield new AddCommand(new Event(details[0], times[0], times[1]));
+            yield new AddCommand(new Deadline(details[0], details[1]));
+        }
+        case "event" -> {
+            String[] details = arguments.split(" /from ");
+            if (details.length < 2 || !details[1].contains(" /to ")) {
+                throw new DuckException("Invalid format. "
+                        + "Use: event [description] /from [Start eg. yyyy-MM-dd HHmm] "
+                        + "/to [End eg. yyyy-MM-dd HHmm]");
             }
-            case "delete" -> new DeleteCommand(Integer.parseInt(arguments) - 1);
-            case "mark" -> new MarkCommand(Integer.parseInt(arguments) - 1, true);
-            case "unmark" -> new MarkCommand(Integer.parseInt(arguments) - 1, false);
-            case "find" -> new FindCommand(arguments);
-            case "bye" -> new ExitCommand();
-            default -> throw new DuckException("Unknown command: " + commandWord);
+            String[] times = details[1].split(" /to ");
+            yield new AddCommand(new Event(details[0], times[0], times[1]));
+        }
+        case "delete" -> new DeleteCommand(Integer.parseInt(arguments) - 1);
+        case "mark" -> new MarkCommand(Integer.parseInt(arguments) - 1, true);
+        case "unmark" -> new MarkCommand(Integer.parseInt(arguments) - 1, false);
+        case "find" -> new FindCommand(arguments);
+        case "bye" -> new ExitCommand();
+        default -> throw new DuckException("Unknown command: " + commandWord);
         };
     }
 }

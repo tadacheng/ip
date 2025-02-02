@@ -1,11 +1,12 @@
 package duck.command;
 
+import java.util.List;
+
 import duck.task.Task;
 import duck.ui.Storage;
 import duck.ui.TaskList;
 import duck.ui.Ui;
 
-import java.util.List;
 
 /**
  * Represents a command that prints all the tasks found with keyword in the tasks list.

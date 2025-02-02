@@ -1,5 +1,11 @@
 package duck.ui;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import duck.command.AddCommand;
 import duck.command.Command;
 import duck.command.DeleteCommand;
@@ -8,11 +14,7 @@ import duck.command.HelpCommand;
 import duck.command.ListCommand;
 import duck.command.MarkCommand;
 import duck.exception.DuckException;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ParserTest {
     @Test
@@ -49,7 +51,9 @@ public class ParserTest {
     public void testParseDeadlineCommandInvalidFormat() {
         DuckException exception = assertThrows(DuckException.class, () ->
                 Parser.parse("deadline Submit assignment"));
-        assertEquals(new DuckException("Invalid format. Use: deadline [description] /by [Date Time eg. yyyy-MM-dd HHmm]").getMessage(),
+        assertEquals(
+                new DuckException("Invalid format. Use: deadline [description] "
+                        + "/by [Date Time eg. yyyy-MM-dd HHmm]").getMessage(),
                 exception.getMessage());
     }
 
@@ -63,7 +67,9 @@ public class ParserTest {
     public void testParseEventCommand_invalidFormat_exceptionThrown() {
         DuckException exception = assertThrows(DuckException.class, () ->
                 Parser.parse("event Team meeting /from 2025-01-01 1400"));
-        assertEquals(new DuckException("Invalid format. Use: event [description] /from [Start eg. yyyy-MM-dd HHmm] /to [End eg. yyyy-MM-dd HHmm]").getMessage(),
+        assertEquals(
+                new DuckException("Invalid format. Use: event [description] /from [Start eg. yyyy-MM-dd HHmm] "
+                        + "/to [End eg. yyyy-MM-dd HHmm]").getMessage(),
                 exception.getMessage());
     }
 

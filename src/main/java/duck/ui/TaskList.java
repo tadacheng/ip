@@ -1,10 +1,11 @@
 package duck.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import duck.exception.DuckException;
 import duck.task.Task;
 
-import java.util.ArrayList;
-import java.util.List;
 /**
  * Represents a list of tasks.
  * Provides methods to add, delete, and retrieve tasks from the list.
