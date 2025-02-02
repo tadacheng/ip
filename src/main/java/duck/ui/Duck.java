@@ -1,9 +1,9 @@
 package duck.ui;
 
-import duck.exception.DuckException;
-import duck.command.Command;
-
 import java.io.IOException;
+
+import duck.command.Command;
+import duck.exception.DuckException;
 
 /**
  * The main class of the Duck application, responsible for initializing and running the program.

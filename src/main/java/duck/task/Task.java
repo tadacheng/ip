@@ -18,18 +18,16 @@ public abstract class Task {
         this.isDone = false;
     }
 
-<<<<<<< HEAD
+
     /**
      * Returns the status icon of the task, represented as an "X" if done, or a space if not done.
      *
      * @return The status icon of the task.
      */
-=======
     public String getDescription() {
         return this.description;
     }
 
->>>>>>> branch-Level-9
     public String getStatusIcon() {
         return this.isDone ? "X" : " ";
     }

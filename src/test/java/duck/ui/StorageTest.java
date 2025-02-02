@@ -1,13 +1,9 @@
 package duck.ui;
 
-import duck.exception.DuckException;
-import duck.task.Deadline;
-import duck.task.Event;
-import duck.task.Task;
-import duck.task.Todo;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,10 +12,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import duck.exception.DuckException;
+import duck.task.Deadline;
+import duck.task.Event;
+import duck.task.Task;
+import duck.task.Todo;
 
 public class StorageTest {
     private static final String TEST_FILE_PATH = "./data/duck_test.txt";
@@ -54,8 +55,13 @@ public class StorageTest {
     public void testSaveAndLoadTasks() throws DuckException {
         List<Task> tasksToSave = new ArrayList<>();
         tasksToSave.add(new Todo("Todo task"));
-        tasksToSave.add(new Deadline("Deadline task", LocalDateTime.of(2025, 1, 30, 12, 0)));
-        tasksToSave.add(new Event("Event task", LocalDateTime.of(2025, 2, 1, 14, 0), LocalDateTime.of(2025, 2, 1, 16, 0)));
+        tasksToSave.add(
+                new Deadline("Deadline task",
+                        LocalDateTime.of(2025, 1, 30, 12, 0)));
+        tasksToSave.add(
+                new Event("Event task",
+                        LocalDateTime.of(2025, 2, 1, 14, 0),
+                        LocalDateTime.of(2025, 2, 1, 16, 0)));
 
         storage.save(tasksToSave);
 

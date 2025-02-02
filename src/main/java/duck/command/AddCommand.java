@@ -1,8 +1,8 @@
 package duck.command;
 
 import duck.exception.DuckException;
-import duck.ui.Storage;
 import duck.task.Task;
+import duck.ui.Storage;
 import duck.ui.TaskList;
 import duck.ui.Ui;
 

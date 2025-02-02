@@ -1,11 +1,5 @@
 package duck.ui;
 
-import duck.exception.DuckException;
-import duck.task.Deadline;
-import duck.task.Event;
-import duck.task.Task;
-import duck.task.Todo;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,6 +9,14 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import duck.exception.DuckException;
+import duck.task.Deadline;
+import duck.task.Event;
+import duck.task.Task;
+import duck.task.Todo;
+
+
 
 /**
  * Handles the loading and saving of tasks from/to a specified file.
@@ -68,13 +70,15 @@ public class Storage {
             while ((line = reader.readLine()) != null) {
                 String[] taskData = line.split(" \\| ");
                 Task task = switch (taskData[0]) {
-                    case "T" -> new Todo(taskData[2]);
-                    case "D" -> new Deadline(taskData[2], LocalDateTime.parse(taskData[3]));
-                    case "E" ->
-                            new Event(taskData[2], LocalDateTime.parse(taskData[3]), LocalDateTime.parse(taskData[4]));
-                    default -> throw new DuckException("Invalid task type in file.");
+                case "T" -> new Todo(taskData[2]);
+                case "D" -> new Deadline(taskData[2], LocalDateTime.parse(taskData[3]));
+                case "E" ->
+                        new Event(taskData[2], LocalDateTime.parse(taskData[3]), LocalDateTime.parse(taskData[4]));
+                default -> throw new DuckException("Invalid task type in file.");
                 };
-                if (taskData[1].equals("1")) task.markAsDone();
+                if (taskData[1].equals("1")) {
+                    task.markAsDone();
+                }
                 tasksList.add(task);
             }
         } catch (IOException | DuckException e) {
