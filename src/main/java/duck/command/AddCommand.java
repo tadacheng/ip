@@ -22,8 +22,9 @@ public class AddCommand extends Command {
     public void execute(TaskList tasks, Ui ui, Storage storage) throws DuckException {
         tasks.addTask(this.task);
         storage.save(tasks.getAllTasks());
-        System.out.println("Got it. I've added this task:\n");
-        System.out.println("  " + task.toString());
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        this.hasExecuted = true;
+        this.executedResponse = "Got it. I've added this task:\n"
+                + "  " + task.toString() + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list.";
     }
 }

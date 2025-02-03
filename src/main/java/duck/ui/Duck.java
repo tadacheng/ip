@@ -5,11 +5,13 @@ import java.io.IOException;
 import duck.command.Command;
 import duck.exception.DuckException;
 
+
 /**
  * The main class of the Duck application, responsible for initializing and running the program.
  * It handles interactions between the user interface, task list, and storage components.
  */
 public class Duck {
+    private static final String DEFAULT_FILE_PATH = "./data/duck.txt";
     private final Storage storage;
     private TaskList tasks;
     private final Ui ui;
@@ -28,6 +30,13 @@ public class Duck {
             ui.showLoadingError();
             tasks = new TaskList();
         }
+    }
+
+    /**
+     * Initializes the Duck application with a default file path for data storage.
+     */
+    public Duck() {
+        this(DEFAULT_FILE_PATH);
     }
 
     /**
@@ -54,6 +63,22 @@ public class Duck {
             }
         }
         ui.close();
+    }
+
+    /**
+     * Generates a response for the user's chat message.
+     *
+     * @param input The input from users.
+     * @return The message after command is executed.
+     */
+    public String getResponse(String input) {
+        try {
+            Command c = Parser.parse(input);
+            c.execute(tasks, ui, storage);
+            return c.getString();
+        } catch (DuckException e) {
+            return e.getMessage();
+        }
     }
 
     public static void main(String[] args) throws IOException {

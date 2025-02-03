@@ -22,8 +22,9 @@ public class DeleteCommand extends Command {
     public void execute(TaskList tasks, Ui ui, Storage storage) throws DuckException {
         Task removedTask = tasks.deleteTask(this.id);
         storage.save(tasks.getAllTasks());
-        System.out.println("Noted. I've removed this task:");
-        System.out.println("  " + removedTask);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        this.hasExecuted = true;
+        this.executedResponse = "Noted. I've removed this task:\n"
+                + "  " + removedTask + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list.";
     }
 }
