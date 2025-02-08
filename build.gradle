@@ -44,7 +44,7 @@ test {
 }
 
 application {
-    mainClass.set("tadacheng.duck.ui.Launcher")
+    mainClass.set("duck.ui.Launcher")
 }
 
 checkstyle {
@@ -53,10 +53,11 @@ checkstyle {
 
 shadowJar {
     archiveBaseName = "duck"
+    archiveFileName = 'duck.jar'
     archiveClassifier = null
 }
 
-run{
+run {
     standardInput = System.in
     enableAssertions = true
 }

@@ -26,6 +26,7 @@ public class TaskList {
      * @param tasks A list of tasks to initialize the task list.
      */
     public TaskList(List<Task> tasks) {
+        assert tasks != null : "Task list should not be null";
         this.tasks = tasks;
     }
 
@@ -36,6 +37,7 @@ public class TaskList {
      * @param task The task to be added to the list.
      */
     public void addTask(Task task) {
+        assert task != null : "Task to be added should not be null";
         this.tasks.add(task);
     }
 
@@ -61,6 +63,7 @@ public class TaskList {
      * @return The task with the specified ID.
      */
     public Task getTask(int id) {
+        assert id >= 0 && id < tasks.size() : "Task ID out of bounds: " + id;
         return tasks.get(id);
     }
 
@@ -89,6 +92,7 @@ public class TaskList {
      * @return The list of found task with keyword in description.
      */
     public List<Task> findTasks(String keyword) {
+        assert keyword != null && !keyword.isBlank() : "Search keyword should not be null or empty";
         List<Task> matchingTasks = new ArrayList<>();
         for (Task task : tasks) {
             if (task.getDescription().contains(keyword)) {

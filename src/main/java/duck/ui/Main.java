@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  * A GUI for Duck using FXML.
  */
 public class Main extends Application {
-    private Duck duck = new Duck();
+    private final Duck duck = new Duck();
 
     @Override
     public void start(Stage stage) {
