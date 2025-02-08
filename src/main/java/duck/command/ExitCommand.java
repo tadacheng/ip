@@ -2,7 +2,6 @@ package duck.command;
 
 import duck.ui.Storage;
 import duck.ui.TaskList;
-import duck.ui.Ui;
 
 /**
  * Represents a command that exits the application.
@@ -11,7 +10,7 @@ import duck.ui.Ui;
 public class ExitCommand extends Command {
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks, Storage storage) {
         this.hasExecuted = true;
         this.executedResponse = "Bye. Hope to see you again soon!";
     }

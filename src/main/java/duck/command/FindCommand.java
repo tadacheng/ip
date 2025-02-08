@@ -5,7 +5,6 @@ import java.util.List;
 import duck.task.Task;
 import duck.ui.Storage;
 import duck.ui.TaskList;
-import duck.ui.Ui;
 
 /**
  * Represents a command that prints all the tasks found with keyword in the tasks list.
@@ -17,7 +16,7 @@ public class FindCommand extends Command {
         this.keyword = keyword;
     }
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks, Storage storage) {
         List<Task> foundTasks = tasks.findTasks(this.keyword);
         this.hasExecuted = true;
         StringBuilder sb = new StringBuilder();
