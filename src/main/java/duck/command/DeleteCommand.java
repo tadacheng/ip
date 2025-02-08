@@ -4,7 +4,6 @@ import duck.exception.DuckException;
 import duck.task.Task;
 import duck.ui.Storage;
 import duck.ui.TaskList;
-import duck.ui.Ui;
 
 /**
  * Represents a command that deletes a task from the task list.
@@ -19,7 +18,7 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws DuckException {
+    public void execute(TaskList tasks, Storage storage) throws DuckException {
         Task removedTask = tasks.deleteTask(this.id);
         storage.save(tasks.getAllTasks());
         this.hasExecuted = true;

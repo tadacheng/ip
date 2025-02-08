@@ -51,6 +51,7 @@ public class Storage {
         if (!parentDir.exists() && !parentDir.mkdirs()) {
             throw new DuckException("Failed to create the directory: " + parentDir.getPath());
         }
+
         if (!file.exists()) {
             try {
                 if (file.createNewFile()) { // Creates the file if it doesn't exist
@@ -68,17 +69,7 @@ public class Storage {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] taskData = line.split(" \\| ");
-                Task task = switch (taskData[0]) {
-                case "T" -> new Todo(taskData[2]);
-                case "D" -> new Deadline(taskData[2], LocalDateTime.parse(taskData[3]));
-                case "E" ->
-                        new Event(taskData[2], LocalDateTime.parse(taskData[3]), LocalDateTime.parse(taskData[4]));
-                default -> throw new DuckException("Invalid task type in file.");
-                };
-                if (taskData[1].equals("1")) {
-                    task.markAsDone();
-                }
+                Task task = getTaskFromLine(line);
                 tasksList.add(task);
             }
         } catch (IOException | DuckException e) {
@@ -87,6 +78,27 @@ public class Storage {
             throw new DuckException("File content not in the expected format");
         }
         return tasksList;
+    }
+
+    /**
+     * Converts task in file format to a task usable by Task.
+     * @param line task currently in file format.
+     * @return A task
+     * @throws DuckException If the file format is invalid.
+     */
+    private static Task getTaskFromLine(String line) throws DuckException {
+        String[] taskData = line.split(" \\| ");
+        Task task = switch (taskData[0]) {
+        case "T" -> new Todo(taskData[2]);
+        case "D" -> new Deadline(taskData[2], LocalDateTime.parse(taskData[3]));
+        case "E" ->
+                new Event(taskData[2], LocalDateTime.parse(taskData[3]), LocalDateTime.parse(taskData[4]));
+        default -> throw new DuckException("Invalid task type in file.");
+        };
+        if (taskData[1].equals("1")) {
+            task.markAsDone();
+        }
+        return task;
     }
 
     /**

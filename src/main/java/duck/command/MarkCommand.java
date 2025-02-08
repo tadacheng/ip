@@ -4,7 +4,6 @@ import duck.exception.DuckException;
 import duck.task.Task;
 import duck.ui.Storage;
 import duck.ui.TaskList;
-import duck.ui.Ui;
 
 /**
  * Represents a command that marks a task as either done or not done.
@@ -26,7 +25,7 @@ public class MarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws DuckException {
+    public void execute(TaskList tasks, Storage storage) throws DuckException {
         if (this.id < 0 || this.id >= tasks.size()) {
             throw new DuckException("Invalid task number. Use list to view task id");
         }

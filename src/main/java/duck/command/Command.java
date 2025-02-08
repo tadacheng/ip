@@ -3,7 +3,6 @@ package duck.command;
 import duck.exception.DuckException;
 import duck.ui.Storage;
 import duck.ui.TaskList;
-import duck.ui.Ui;
 
 /**
  * Represents an abstract command that can be executed in the application.
@@ -14,15 +13,14 @@ public abstract class Command {
     protected String executedResponse;
 
     /**
-     * Executes the command with the given task list, user interface, and storage.
+     * Executes the command with the given task list and storage.
      * This method is intended to be implemented by subclasses to define specific command behavior.
      *
      * @param tasks The current list of tasks that the command will operate on.
-     * @param ui The user interface to interact with the user.
      * @param storage The storage used to save or load tasks.
      * @throws DuckException If an error occurs while executing the command.
      */
-    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws DuckException;
+    public abstract void execute(TaskList tasks, Storage storage) throws DuckException;
 
     /**
      * Get the string response from the result of the command.
