@@ -31,6 +31,7 @@ public class Storage {
      * @param saveFilePath The path of the file where tasks are stored.
      */
     public Storage(String saveFilePath) {
+        assert saveFilePath != null && !saveFilePath.isBlank() : "saveFilePath should not be null or empty";
         this.saveFilePath = saveFilePath;
     }
 
@@ -51,6 +52,8 @@ public class Storage {
         if (!parentDir.exists() && !parentDir.mkdirs()) {
             throw new DuckException("Failed to create the directory: " + parentDir.getPath());
         }
+        assert parentDir.exists() : "Parent directory should exist after creation attempt";
+
         if (!file.exists()) {
             try {
                 if (file.createNewFile()) { // Creates the file if it doesn't exist
@@ -62,6 +65,8 @@ public class Storage {
                 throw new DuckException("Failed to create the file: " + saveFilePath);
             }
         }
+        assert file.exists() : "File should exist after creation attempt";
+
 
         // Load content from file and populate tasks list
         try {
@@ -96,6 +101,7 @@ public class Storage {
      * @throws DuckException If an error occurs during file writing.
      */
     public void save(List<Task> tasksList) throws DuckException {
+        assert tasksList != null : "tasksList should not be null before saving";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(saveFilePath))) {
             for (Task task : tasksList) {
                 writer.write(task.toFileFormat());

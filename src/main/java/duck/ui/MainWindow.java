@@ -29,6 +29,8 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+        dialogContainer.getChildren().add(DialogBox.getDuckDialog("Hello! I'm Duck\nWhat can I do for you?\n", duckImage));
+
     }
 
     /** Injects the Duck instance */
