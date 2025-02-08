@@ -31,6 +31,7 @@ public class Storage {
      * @param saveFilePath The path of the file where tasks are stored.
      */
     public Storage(String saveFilePath) {
+        assert saveFilePath != null && !saveFilePath.isBlank() : "saveFilePath should not be null or empty";
         this.saveFilePath = saveFilePath;
     }
 
@@ -51,6 +52,9 @@ public class Storage {
         if (!parentDir.exists() && !parentDir.mkdirs()) {
             throw new DuckException("Failed to create the directory: " + parentDir.getPath());
         }
+
+        assert parentDir.exists() : "Parent directory should exist after creation attempt";
+
         if (!file.exists()) {
             try {
                 if (file.createNewFile()) { // Creates the file if it doesn't exist
@@ -62,23 +66,15 @@ public class Storage {
                 throw new DuckException("Failed to create the file: " + saveFilePath);
             }
         }
+        assert file.exists() : "File should exist after creation attempt";
+
 
         // Load content from file and populate tasks list
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] taskData = line.split(" \\| ");
-                Task task = switch (taskData[0]) {
-                case "T" -> new Todo(taskData[2]);
-                case "D" -> new Deadline(taskData[2], LocalDateTime.parse(taskData[3]));
-                case "E" ->
-                        new Event(taskData[2], LocalDateTime.parse(taskData[3]), LocalDateTime.parse(taskData[4]));
-                default -> throw new DuckException("Invalid task type in file.");
-                };
-                if (taskData[1].equals("1")) {
-                    task.markAsDone();
-                }
+                Task task = getTaskFromLine(line);
                 tasksList.add(task);
             }
         } catch (IOException | DuckException e) {
@@ -90,12 +86,34 @@ public class Storage {
     }
 
     /**
+     * Converts task in file format to a task usable by Task.
+     * @param line task currently in file format.
+     * @return A task
+     * @throws DuckException If the file format is invalid.
+     */
+    private static Task getTaskFromLine(String line) throws DuckException {
+        String[] taskData = line.split(" \\| ");
+        Task task = switch (taskData[0]) {
+        case "T" -> new Todo(taskData[2]);
+        case "D" -> new Deadline(taskData[2], LocalDateTime.parse(taskData[3]));
+        case "E" ->
+                new Event(taskData[2], LocalDateTime.parse(taskData[3]), LocalDateTime.parse(taskData[4]));
+        default -> throw new DuckException("Invalid task type in file.");
+        };
+        if (taskData[1].equals("1")) {
+            task.markAsDone();
+        }
+        return task;
+    }
+
+    /**
      * Saves the given list of tasks to the storage file.
      *
      * @param tasksList The list of tasks to be saved to the file.
      * @throws DuckException If an error occurs during file writing.
      */
     public void save(List<Task> tasksList) throws DuckException {
+        assert tasksList != null : "tasksList should not be null before saving";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(saveFilePath))) {
             tasksList.stream()
                     .map(Task::toFileFormat)

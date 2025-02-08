@@ -27,6 +27,7 @@ public class Parser {
      * @throws DuckException If the command is invalid or incorrectly formatted.
      */
     public static Command parse(String fullCommand) throws DuckException {
+        assert fullCommand != null && !fullCommand.isBlank() : "Input command should not be null or blank";
         String[] parts = fullCommand.split(" ", 2);
         String commandWord = parts[0];
         String arguments = parts.length > 1 ? parts[1] : "";

@@ -4,7 +4,6 @@ import duck.exception.DuckException;
 import duck.task.Task;
 import duck.ui.Storage;
 import duck.ui.TaskList;
-import duck.ui.Ui;
 
 /**
  * Represents a command that adds a task to the task list.
@@ -19,7 +18,7 @@ public class AddCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws DuckException {
+    public void execute(TaskList tasks, Storage storage) throws DuckException {
         tasks.addTask(this.task);
         storage.save(tasks.getAllTasks());
         this.hasExecuted = true;
