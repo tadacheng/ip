@@ -97,10 +97,16 @@ public class Storage {
      */
     public void save(List<Task> tasksList) throws DuckException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(saveFilePath))) {
-            for (Task task : tasksList) {
-                writer.write(task.toFileFormat());
-                writer.newLine();
-            }
+            tasksList.stream()
+                    .map(Task::toFileFormat)
+                    .forEach(taskString -> {
+                        try {
+                            writer.write(taskString);
+                            writer.newLine();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
         } catch (IOException e) {
             throw new DuckException("Failed to save tasks: " + e.getMessage());
         }
