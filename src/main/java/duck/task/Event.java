@@ -26,7 +26,7 @@ public class Event extends Task {
     }
 
     /**
-     * Initializes an {@code Event} task with the specified description and time range as LocalDateTime.
+     * Initializes an Event task with the specified description and time range as LocalDateTime.
      *
      * @param description The description of the event task.
      * @param from        The start time of the event.
