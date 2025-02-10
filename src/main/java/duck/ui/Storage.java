@@ -13,6 +13,7 @@ import java.util.List;
 import duck.exception.DuckException;
 import duck.task.Deadline;
 import duck.task.Event;
+import duck.task.Recurring;
 import duck.task.Task;
 import duck.task.Todo;
 
@@ -96,8 +97,10 @@ public class Storage {
         Task task = switch (taskData[0]) {
         case "T" -> new Todo(taskData[2]);
         case "D" -> new Deadline(taskData[2], LocalDateTime.parse(taskData[3]));
-        case "E" ->
-                new Event(taskData[2], LocalDateTime.parse(taskData[3]), LocalDateTime.parse(taskData[4]));
+        case "E" -> new Event(taskData[2],
+                LocalDateTime.parse(taskData[3]), LocalDateTime.parse(taskData[4]));
+        case "R" -> new Recurring(taskData[2],
+                LocalDateTime.parse(taskData[3]), LocalDateTime.parse(taskData[4]), taskData[5]);
         default -> throw new DuckException("Invalid task type in file.");
         };
         if (taskData[1].equals("1")) {

@@ -1,6 +1,9 @@
 package duck.command;
 
+import java.time.LocalDateTime;
+
 import duck.exception.DuckException;
+import duck.task.Recurring;
 import duck.task.Task;
 import duck.ui.Storage;
 import duck.ui.TaskList;
@@ -36,6 +39,17 @@ public class MarkCommand extends Command {
         if (isMark) {
             task.markAsDone();
             sb.append("Nice! I've marked this task as done:");
+            if (task instanceof Recurring recurring) {
+                LocalDateTime nextOccurrence = recurring.getNextOccurrence();
+
+                // Create a new recurring task with the updated next occurrence
+                Recurring newRecurring = new Recurring(recurring.getDescription(),
+                        nextOccurrence, recurring.getRecurrencePattern());
+
+                // Add the new task to the task list
+                tasks.addTask(newRecurring);
+                storage.save(tasks.getAllTasks());
+            }
         } else {
             task.markAsNotDone();
             sb.append("OK, I've marked this task as not done yet:");

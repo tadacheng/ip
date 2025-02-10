@@ -26,10 +26,14 @@ public class MainWindow extends AnchorPane {
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
     private Image duckImage = new Image(this.getClass().getResourceAsStream("/images/DaDuck.png"));
 
+    /**
+     * Initialize the window and send welcome message.
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-        dialogContainer.getChildren().add(DialogBox.getDuckDialog("Hello! I'm Duck\nWhat can I do for you?\n", duckImage));
+        dialogContainer.getChildren()
+                .add(DialogBox.getDuckDialog("Hello! I'm Duck\nWhat can I do for you?\n", duckImage));
 
     }
 

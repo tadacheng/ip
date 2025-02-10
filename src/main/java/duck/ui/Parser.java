@@ -11,6 +11,7 @@ import duck.command.MarkCommand;
 import duck.exception.DuckException;
 import duck.task.Deadline;
 import duck.task.Event;
+import duck.task.Recurring;
 import duck.task.Todo;
 
 /**
@@ -31,7 +32,7 @@ public class Parser {
         String[] parts = fullCommand.split(" ", 2);
         String commandWord = parts[0];
         String arguments = parts.length > 1 ? parts[1] : "";
-
+        System.out.println(arguments);
         return switch (commandWord) {
         case "help" -> new HelpCommand();
         case "list" -> new ListCommand();
@@ -58,6 +59,16 @@ public class Parser {
             }
             String[] times = details[1].split(" /to ");
             yield new AddCommand(new Event(details[0], times[0], times[1]));
+        }
+        case "recurring" -> {
+            String[] details = arguments.split("/at ");
+            if (details.length < 2 || !details[1].contains(" /every ")) {
+                throw new DuckException("Invalid format. "
+                        + "Use: recurring [description] /at [Start eg. yyyy-MM-dd HHmm] "
+                        + "/every [Pattern, day, week, month]");
+            }
+            String[] times = details[1].split(" /every ");
+            yield new AddCommand(new Recurring(details[0], times[0], times[1]));
         }
         case "delete" -> new DeleteCommand(Integer.parseInt(arguments) - 1);
         case "mark" -> new MarkCommand(Integer.parseInt(arguments) - 1, true);
