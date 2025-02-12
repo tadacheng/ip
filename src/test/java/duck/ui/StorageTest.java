@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,8 +74,9 @@ public class StorageTest {
     }
 
     @Test
-    public void testLoad_invalidFileContent_exceptionThrown() {
+    public void testLoad_invalidFileContent_exceptionThrown() throws IOException {
         File testFile = new File(TEST_FILE_PATH);
+        testFile.createNewFile();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
             writer.write("X | 0 | Invalid Task");
         } catch (Exception e) {
@@ -85,8 +87,9 @@ public class StorageTest {
     }
 
     @Test
-    public void testLoad_withCorruptFormat_exceptionThrown() {
+    public void testLoad_withCorruptFormat_exceptionThrown() throws IOException {
         File testFile = new File(TEST_FILE_PATH);
+        testFile.createNewFile();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
             writer.write("T | 0"); // Incomplete task data
         } catch (Exception e) {
