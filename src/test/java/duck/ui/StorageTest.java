@@ -76,6 +76,7 @@ public class StorageTest {
     @Test
     public void testLoad_invalidFileContent_exceptionThrown() throws IOException {
         File testFile = new File(TEST_FILE_PATH);
+        testFile.getParentFile().mkdir();
         testFile.createNewFile();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
             writer.write("X | 0 | Invalid Task");
@@ -89,6 +90,7 @@ public class StorageTest {
     @Test
     public void testLoad_withCorruptFormat_exceptionThrown() throws IOException {
         File testFile = new File(TEST_FILE_PATH);
+        testFile.getParentFile().mkdir();
         testFile.createNewFile();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
             writer.write("T | 0"); // Incomplete task data
