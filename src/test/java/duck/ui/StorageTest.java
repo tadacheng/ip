@@ -31,19 +31,23 @@ public class StorageTest {
     private Storage storage;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws InterruptedException {
         storage = new Storage(testFilePath.toString());
         // Ensure test file is clean before every test
         File testFile = testFilePath.toFile();
+        System.gc(); // Suggests garbage collection to release file locks
+        Thread.sleep(100); // Give the system time to close handles
         if (testFile.exists()) {
             assertTrue(testFile.delete());
         }
     }
 
     @AfterEach
-    public void tearDown() {
+    public void tearDown() throws InterruptedException {
         // Clean up test file after tests
         File testFile = testFilePath.toFile();
+        System.gc(); // Suggests garbage collection to release file locks
+        Thread.sleep(100); // Give the system time to close handles
         if (testFile.exists()) {
             assertTrue(testFile.delete());
         }
