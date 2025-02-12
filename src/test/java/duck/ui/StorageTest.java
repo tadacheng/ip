@@ -9,6 +9,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +26,15 @@ import duck.task.Task;
 import duck.task.Todo;
 
 public class StorageTest {
-    private static final String TEST_FILE_PATH = "./data/duck_test.txt";
+    private final Path testFilePath = Paths.get("data", "duck_test.txt");
+
     private Storage storage;
 
     @BeforeEach
     public void setUp() {
-        storage = new Storage(TEST_FILE_PATH);
+        storage = new Storage(testFilePath.toString());
         // Ensure test file is clean before every test
-        File testFile = new File(TEST_FILE_PATH);
+        File testFile = testFilePath.toFile();
         if (testFile.exists()) {
             assertTrue(testFile.delete());
         }
@@ -40,7 +43,7 @@ public class StorageTest {
     @AfterEach
     public void tearDown() {
         // Clean up test file after tests
-        File testFile = new File(TEST_FILE_PATH);
+        File testFile = testFilePath.toFile();
         if (testFile.exists()) {
             assertTrue(testFile.delete());
         }
@@ -75,7 +78,7 @@ public class StorageTest {
 
     @Test
     public void testLoad_invalidFileContent_exceptionThrown() throws IOException {
-        File testFile = new File(TEST_FILE_PATH);
+        File testFile = testFilePath.toFile();
         testFile.getParentFile().mkdir();
         testFile.createNewFile();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
@@ -89,7 +92,7 @@ public class StorageTest {
 
     @Test
     public void testLoad_withCorruptFormat_exceptionThrown() throws IOException {
-        File testFile = new File(TEST_FILE_PATH);
+        File testFile = testFilePath.toFile();
         testFile.getParentFile().mkdir();
         testFile.createNewFile();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
