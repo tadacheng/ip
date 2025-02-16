@@ -88,6 +88,7 @@ public class Storage {
 
     /**
      * Converts task in file format to a task usable by Task.
+     *
      * @param line task currently in file format.
      * @return A task
      * @throws DuckException If the file format is invalid.

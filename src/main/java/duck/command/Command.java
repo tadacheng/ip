@@ -24,6 +24,7 @@ public abstract class Command {
 
     /**
      * Get the string response from the result of the command.
+     *
      * @return String response of command result.
      */
     public String getString() {

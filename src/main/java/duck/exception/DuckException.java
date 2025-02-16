@@ -7,6 +7,7 @@ package duck.exception;
 public class DuckException extends Exception {
     /**
      * Exception for Duck application with dividers.
+     *
      * @param message The error message to be shown
      */
     public DuckException(String message) {

@@ -28,6 +28,7 @@ public class DialogBox extends HBox {
 
     /**
      * Controller for the DialogBox GUi.
+     *
      * @param text The text in the box
      * @param img The image beside the text
      */
