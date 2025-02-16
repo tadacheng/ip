@@ -68,7 +68,7 @@ public class TaskListTest {
     @Test
     public void testGetTask_invalidId_exceptionThrown() {
         TaskList taskList = new TaskList();
-        assertThrows(IndexOutOfBoundsException.class, () -> {
+        assertThrows(AssertionError.class, () -> {
             taskList.getTask(0);
         });
     }

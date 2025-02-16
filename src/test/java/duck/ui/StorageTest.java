@@ -8,6 +8,9 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,23 +26,28 @@ import duck.task.Task;
 import duck.task.Todo;
 
 public class StorageTest {
-    private static final String TEST_FILE_PATH = "./data/duck_test.txt";
+    private final Path testFilePath = Paths.get("data", "duck_test.txt");
+
     private Storage storage;
 
     @BeforeEach
-    public void setUp() {
-        storage = new Storage(TEST_FILE_PATH);
+    public void setUp() throws InterruptedException {
+        storage = new Storage(testFilePath.toString());
         // Ensure test file is clean before every test
-        File testFile = new File(TEST_FILE_PATH);
+        File testFile = testFilePath.toFile();
+        System.gc(); // Suggests garbage collection to release file locks
+        Thread.sleep(100); // Give the system time to close handles
         if (testFile.exists()) {
             assertTrue(testFile.delete());
         }
     }
 
     @AfterEach
-    public void tearDown() {
+    public void tearDown() throws InterruptedException {
         // Clean up test file after tests
-        File testFile = new File(TEST_FILE_PATH);
+        File testFile = testFilePath.toFile();
+        System.gc(); // Suggests garbage collection to release file locks
+        Thread.sleep(100); // Give the system time to close handles
         if (testFile.exists()) {
             assertTrue(testFile.delete());
         }
@@ -73,8 +81,10 @@ public class StorageTest {
     }
 
     @Test
-    public void testLoad_invalidFileContent_exceptionThrown() {
-        File testFile = new File(TEST_FILE_PATH);
+    public void testLoad_invalidFileContent_exceptionThrown() throws IOException {
+        File testFile = testFilePath.toFile();
+        testFile.getParentFile().mkdir();
+        testFile.createNewFile();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
             writer.write("X | 0 | Invalid Task");
         } catch (Exception e) {
@@ -85,8 +95,10 @@ public class StorageTest {
     }
 
     @Test
-    public void testLoad_withCorruptFormat_exceptionThrown() {
-        File testFile = new File(TEST_FILE_PATH);
+    public void testLoad_withCorruptFormat_exceptionThrown() throws IOException {
+        File testFile = testFilePath.toFile();
+        testFile.getParentFile().mkdir();
+        testFile.createNewFile();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
             writer.write("T | 0"); // Incomplete task data
         } catch (Exception e) {
