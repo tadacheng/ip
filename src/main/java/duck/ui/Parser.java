@@ -1,5 +1,7 @@
 package duck.ui;
 
+import java.util.regex.Pattern;
+
 import duck.command.AddCommand;
 import duck.command.Command;
 import duck.command.DeleteCommand;
@@ -20,6 +22,11 @@ import duck.task.Todo;
  */
 public class Parser {
 
+    private static boolean isValidDateTime(String s) {
+        String regex = "^(\\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])\\s([01]\\d|2[0-3])[0-5]\\d$";
+        return Pattern.matches(regex, s);
+    }
+
     /**
      * Parses the given command string and returns the corresponding Command object.
      *
@@ -32,7 +39,6 @@ public class Parser {
         String[] parts = fullCommand.split(" ", 2);
         String commandWord = parts[0];
         String arguments = parts.length > 1 ? parts[1] : "";
-        System.out.println(arguments);
         return switch (commandWord) {
         case "help" -> new HelpCommand();
         case "list" -> new ListCommand();
@@ -48,6 +54,10 @@ public class Parser {
                 throw new DuckException("Invalid format. "
                         + "Use: deadline [description] /by [Date Time eg. yyyy-MM-dd HHmm]");
             }
+            if (!isValidDateTime(details[1])) {
+                throw new DuckException("Invalid Date Time format. "
+                        + "Use: deadline [description] /by [Date Time eg. yyyy-MM-dd HHmm]");
+            }
             yield new AddCommand(new Deadline(details[0], details[1]));
         }
         case "event" -> {
@@ -58,6 +68,11 @@ public class Parser {
                         + "/to [End eg. yyyy-MM-dd HHmm]");
             }
             String[] times = details[1].split(" /to ");
+            if (!isValidDateTime(times[0]) || !isValidDateTime(times[1])) {
+                throw new DuckException("Invalid DateTime format. "
+                        + "Use: event [description] /from [Start eg. yyyy-MM-dd HHmm] "
+                        + "/to [End eg. yyyy-MM-dd HHmm]");
+            }
             yield new AddCommand(new Event(details[0], times[0], times[1]));
         }
         case "recurring" -> {
@@ -68,6 +83,11 @@ public class Parser {
                         + "/every [Pattern, day, week, month]");
             }
             String[] times = details[1].split(" /every ");
+            if (!isValidDateTime(times[0]) || !isValidDateTime(times[1])) {
+                throw new DuckException("Invalid Date Time format. "
+                        + "Use: recurring [description] /at [Start eg. yyyy-MM-dd HHmm] "
+                        + "/every [Pattern, day, week, month]");
+            }
             yield new AddCommand(new Recurring(details[0], times[0], times[1]));
         }
         case "delete" -> new DeleteCommand(Integer.parseInt(arguments) - 1);
