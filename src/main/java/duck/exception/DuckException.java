@@ -10,8 +10,8 @@ public class DuckException extends Exception {
      * @param message The error message to be shown
      */
     public DuckException(String message) {
-        super("____________________________________________________________\nError: "
+        super("__________________________________\nError: "
                 + message
-                + "\n____________________________________________________________\n");
+                + "\n__________________________________\n");
     }
 }
