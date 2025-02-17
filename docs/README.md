@@ -1,6 +1,6 @@
 # Duck User Guide
 
-![Duck Screenshot](./UI.png)
+![Duck Screenshot](./Ui.png)
 
 Duck is a chat bot that helps you stay on top of your tasks.
 ## Features
