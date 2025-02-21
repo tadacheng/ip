@@ -1,26 +1,38 @@
-# duck.ui.Duck project template
+# 🦆 Duck
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+Duck is a task manager that helps you stay on top of your tasks effortlessly. 
+Designed for simplicity, speed, and ease of use, Duck ensures that you remain organized.
 
-## Setting up in Intellij
+## Getting Started
+1. Download Duck – Download [here](https://github.com/tadacheng/ip/releases/tag/A-Release)
+2. Install and launch – Run the application.
+3. Add your tasks – Use simple text-based commands.
+4. Stay organized – Let Duck handle your tasks for you.
 
-Prerequisites: JDK 17, update Intellij to the most recent version.
+## Features
+- Managing tasks – Add, remove, and mark tasks as complete.
+- Store your tasks - Save and load tasks automatically.
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 17** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/duck.ui.Duck.java` file, right-click it, and choose `Run duck.ui.Duck.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
-
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+## How to use
+- **Add Todo**: Create a simple task without a date.
+    - Command: `todo [description]`
+- **Add Deadline**: Create a task with a specific deadline.
+    - Command: `deadline [description] /by [yyyy-MM-dd HHmm]`
+- **Add Event**: Create an event with a start and end time.
+    - Command: `event [description] /from [yyyy-MM-dd HHmm] /to [yyyy-MM-dd HHmm]`
+- **Add Recurring Task**: Create a recurring task with a specified frequency.
+    - Command: `recurring [description] /at [yyyy-MM-dd HHmm] /every [day|week|month]`
+- **List Tasks**: View all tasks.
+    - Command: `list`
+- **Mark Task as Done**: Mark a task as completed.
+    - Command: `mark [task number]`
+- **Unmark Task**: Mark a task as incomplete.
+    - Command: `unmark [task number]`
+- **Delete Task**: Remove a task from the list.
+    - Command: `delete [task number]`
+- **Find Task**: Search for tasks containing a specific keyword.
+    - Command: `find [keyword]`
+- **Help**: Display a help message with available commands.
+    - Command: `help`
+- **Exit**: Close the application.
+    - Command: `bye`
